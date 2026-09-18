@@ -1,0 +1,27 @@
+#include <WiFiNINA.h>
+
+void setup() {
+  pinMode(LEDR, OUTPUT);
+  pinMode(LEDG, OUTPUT);
+  pinMode(LEDB, OUTPUT);
+}
+
+void loop() {
+    //Yellow
+  digitalWrite(LEDR, HIGH);
+  digitalWrite(LEDG, HIGH);
+  digitalWrite(LEDB, LOW);
+  
+  delay(2000);
+  //Magenta
+  digitalWrite(LEDR, HIGH);
+  digitalWrite(LEDG, LOW);
+  digitalWrite(LEDB, HIGH);
+  delay(2000);
+
+  //Cyan
+  digitalWrite(LEDR, LOW);
+  digitalWrite(LEDG, HIGH);
+  digitalWrite(LEDB, HIGH); 
+  delay(2000);
+}
