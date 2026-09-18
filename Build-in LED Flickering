@@ -1,0 +1,30 @@
+void setup() {
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+
+  // LED OFF for 3 seconds
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(3000);
+
+  // LED ON for 1 second
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1000);
+
+  // Flicker 6 times
+  for (int i = 0; i < 6; i++) {
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(300);
+
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(300);
+  }
+
+  // LED stays ON
+  digitalWrite(LED_BUILTIN, HIGH);
+
+  // Stop repeating
+  while (true) {
+  }
+}
