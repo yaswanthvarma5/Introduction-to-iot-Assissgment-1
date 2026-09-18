@@ -1,0 +1,50 @@
+#include <WiFiNINA.h>
+
+void setup()
+{
+    Serial.begin(9600);
+    pinMode(LEDR, OUTPUT);
+    pinMode(LEDG, OUTPUT);
+    pinMode(LEDB, OUTPUT);
+}
+
+void setRGB(PinStatus red, PinStatus green, PinStatus blue){
+  digitalWrite(LEDR, red);
+  digitalWrite(LEDG, green);
+  digitalWrite(LEDB, blue); 
+}
+
+void loop()
+{
+    int sensorXaxis = analogRead(A0);
+    int sensorYaxis = analogRead(A1);
+
+    // Serial.print("The X and Y coordinate is:");
+    // Serial.print(sensorXaxis, DEC);
+    // Serial.print(",");
+    // Serial.println(sensorYaxis, DEC);
+    // Serial.println(" ");
+    delay(5);
+
+    // red, green, blue, yellow
+    if (sensorYaxis > 700){
+      setRGB(HIGH, LOW, LOW);
+      Serial.println("RIGHT - RED");
+    }
+    else if (sensorYaxis < 300){
+      setRGB(LOW, HIGH, LOW);
+      Serial.println("LEFT - GREEN");
+    }
+    else if (sensorXaxis < 300){
+      setRGB(LOW, LOW, HIGH);
+      Serial.println("UP - BLUE");
+    }
+    else if (sensorXaxis > 700){
+      setRGB(HIGH, HIGH, LOW);
+      Serial.println("DOWN - YELLOW");
+    }
+    else{
+      setRGB(HIGH, HIGH, HIGH);
+      Serial.println("RESTING - WHITE");
+    }
+}
