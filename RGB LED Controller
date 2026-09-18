@@ -1,0 +1,76 @@
+#include "Arduino.h"
+#include <WiFiNINA.h>
+
+
+const int ledPin = 6;
+const int buttonPin = 7;
+
+int buttonState = HIGH;
+int lastButtonState = HIGH;
+
+unsigned long lastDebounceTime = 0;
+unsigned long debounceDelay = 50;
+
+int currentColor = 0;
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+  digitalWrite(ledPin, HIGH);
+
+  pinMode(LEDR, OUTPUT);
+  pinMode(LEDG, OUTPUT);
+  pinMode(LEDB, OUTPUT);
+}
+
+void setRGB(PinStatus red, PinStatus green, PinStatus blue){
+  digitalWrite(LEDR, red);
+  digitalWrite(LEDG, green);
+  digitalWrite(LEDB, blue); 
+}
+
+void loop() {
+  int reading = digitalRead(buttonPin);
+
+  // If the switch changed due to noise or pressing
+  if (reading != lastButtonState) {
+    lastDebounceTime = millis();
+  }
+
+  if ((millis() - lastDebounceTime) > debounceDelay) {
+    if (reading != buttonState) {
+      buttonState = reading;
+
+      if (buttonState == LOW) {
+        Serial.println("Button Pressed: LOW");
+        digitalWrite(ledPin, HIGH);
+
+        currentColor++;
+        Serial.println(currentColor);
+
+        if (currentColor > 2){
+          currentColor = 0;
+          Serial.println("RESET");
+          Serial.println(currentColor);
+        }
+
+      } else {
+        Serial.println("Button Released: HIGH");
+        digitalWrite(ledPin, LOW);
+      }
+    }
+  }
+
+  if (currentColor == 0){
+    setRGB(HIGH, LOW, LOW); //r
+  }
+  else if (currentColor == 1){
+    setRGB(LOW, HIGH, LOW); //g
+  }
+  else if (currentColor == 2){
+    setRGB(LOW, LOW, HIGH); //b
+  }
+
+  lastButtonState = reading;
+}
