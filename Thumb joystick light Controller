@@ -25,7 +25,9 @@ void loop()
      Serial.println(sensorYaxis, DEC);
      Serial.println(" ");
     delay(5);
+    //for an analog input, the value is typically around:
 
+    //0 ───────── 512 ───────── 1023
     // red, green, blue, yellow
     if (sensorYaxis > 700){
       setRGB(HIGH, LOW, LOW);
